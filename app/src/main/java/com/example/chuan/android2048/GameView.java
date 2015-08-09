@@ -1,7 +1,9 @@
 package com.example.chuan.android2048;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Point;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -153,6 +155,7 @@ public class GameView extends GridLayout {
 
         if(merge) {
             addRandomNum();
+            checkGameFinish();
         }
     }
 
@@ -183,6 +186,7 @@ public class GameView extends GridLayout {
 
         if(merge) {
             addRandomNum();
+            checkGameFinish();
         }
     }
 
@@ -213,6 +217,7 @@ public class GameView extends GridLayout {
 
         if(merge) {
             addRandomNum();
+            checkGameFinish();
         }
     }
 
@@ -243,6 +248,39 @@ public class GameView extends GridLayout {
 
         if(merge) {
             addRandomNum();
+            checkGameFinish();
+        }
+    }
+
+    private void checkGameFinish() {
+
+
+        boolean isFinish = true;
+
+        ALL:
+        for (int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                if(cardsMap[x][y].getNum() == 0 ||
+                        (x > 0 && cardsMap[x][y].equals(cardsMap[x-1][y]))||
+                        (x < 3 && cardsMap[x][y].equals(cardsMap[x+1][y]))||
+                        (y > 0 && cardsMap[x][y].equals(cardsMap[x][y-1]))||
+                        (y < 3 && cardsMap[x][y].equals(cardsMap[x][y+1]))) {
+                    isFinish = false;
+                    break ALL;
+                }
+            }
+        }
+
+        if(isFinish) {
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Hi")
+                    .setMessage("Game is over")
+                    .setPositiveButton("again", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startGame();
+                        }
+                    }).show();
         }
     }
 
