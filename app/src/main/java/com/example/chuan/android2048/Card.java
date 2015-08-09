@@ -42,6 +42,50 @@ public class Card extends FrameLayout {
         }else{
             label.setText(num + "");
         }
+        setCardColor();
+    }
+
+    private void setCardColor() {
+        switch (this.num){
+            case 2:
+                this.label.setBackgroundResource(R.color.card_2);
+                break;
+            case 4:
+                this.label.setBackgroundResource(R.color.card_4);
+                break;
+            case 8:
+                this.label.setBackgroundResource(R.color.card_8);
+                break;
+            case 16:
+                this.label.setBackgroundResource(R.color.card_16);
+                break;
+            case 32:
+                this.label.setBackgroundResource(R.color.card_32);
+                break;
+            case 64:
+                this.label.setBackgroundResource(R.color.card_64);
+                break;
+            case 128:
+                this.label.setBackgroundResource(R.color.card_128);
+                break;
+            case 256:
+                this.label.setBackgroundResource(R.color.card_256);
+                break;
+            case 512:
+                this.label.setBackgroundResource(R.color.card_512);
+                break;
+            case 1024:
+                this.label.setBackgroundResource(R.color.card_1024);
+                break;
+            case 2048:
+                this.label.setBackgroundResource(R.color.card_2048);
+                break;
+            case 4096:
+                this.label.setBackgroundResource(R.color.card_4096);
+                break;
+            default:
+                break;
+        }
     }
 
     public boolean equals(Card o) {
