@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridLayout;
 
+import com.example.chuan.android2048.model.Card;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,10 @@ import java.util.List;
  * Created by Chuan on 8/3/2015.
  */
 public class GameView extends GridLayout {
+
+    private Card[][] cardsMap = new Card[4][4];
+    private List<Point> emptyPoints = new ArrayList<>();
+
     public GameView(Context context) {
         super(context);
         initGameView();
@@ -51,23 +57,22 @@ public class GameView extends GridLayout {
                     case MotionEvent.ACTION_UP:
                         offsetX = event.getX() - startX;
                         offsetY = event.getY() - startY;
+
+                        if (Math.abs(offsetX) > Math.abs(offsetY)) {
+                            if (offsetX < -5) {
+                                swipeLeft();
+                            } else {
+                                swipeRight();
+                            }
+                        } else {
+                            if (offsetY < -5) {
+                                swipeUp();
+                            } else {
+                                swipeDown();
+                            }
+                        }
                         break;
                 }
-
-                if (Math.abs(offsetX) > Math.abs(offsetY)) {
-                    if (offsetX < -5) {
-                        swipeLeft();
-                    } else {
-                        swipeRight();
-                    }
-                } else {
-                    if (offsetY < -5) {
-                        swipeUp();
-                    } else {
-                        swipeDown();
-                    }
-                }
-
                 return true;
             }
         });
@@ -115,10 +120,13 @@ public class GameView extends GridLayout {
 
     }
 
+    /**
+     * Start new Game
+     */
     private void startGame() {
-
+        // Clear score
         MainActivity.getMainActivity().clearScore();
-
+        // Reset all the cards on game board
         for (int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 cardsMap[x][y].setNum(0);
@@ -141,7 +149,7 @@ public class GameView extends GridLayout {
                             cardsMap[x1][y].setNum(0);
                             x--; // Recheck another time
                             merge =true;
-                        }else{
+                        }else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
                             cardsMap[x][y].setNum(cardsMap[x1][y].getNum()*2);
                             cardsMap[x1][y].setNum(0);
                             MainActivity.getMainActivity().addScore(cardsMap[x][y].getNum());
@@ -172,7 +180,7 @@ public class GameView extends GridLayout {
                             cardsMap[x1][y].setNum(0);
                             x++; // Recheck another time
                             merge =true;
-                        }else{
+                        }else if (cardsMap[x][y].equals(cardsMap[x1][y])) {
                             cardsMap[x][y].setNum(cardsMap[x1][y].getNum()*2);
                             cardsMap[x1][y].setNum(0);
                             MainActivity.getMainActivity().addScore(cardsMap[x][y].getNum());
@@ -203,7 +211,7 @@ public class GameView extends GridLayout {
                             cardsMap[x][y1].setNum(0);
                             y--; // Recheck another time
                             merge =true;
-                        }else{
+                        }else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
                             cardsMap[x][y].setNum(cardsMap[x][y1].getNum()*2);
                             cardsMap[x][y1].setNum(0);
                             MainActivity.getMainActivity().addScore(cardsMap[x][y].getNum());
@@ -234,7 +242,7 @@ public class GameView extends GridLayout {
                             cardsMap[x][y1].setNum(0);
                             y++; // Recheck another time
                             merge =true;
-                        }else{
+                        }else if (cardsMap[x][y].equals(cardsMap[x][y1])) {
                             cardsMap[x][y].setNum(cardsMap[x][y1].getNum()*2);
                             cardsMap[x][y1].setNum(0);
                             MainActivity.getMainActivity().addScore(cardsMap[x][y].getNum());
@@ -283,8 +291,5 @@ public class GameView extends GridLayout {
                     }).show();
         }
     }
-
-    private Card[][] cardsMap = new Card[4][4];
-    private List<Point> emptyPoints = new ArrayList<>();
 }
 

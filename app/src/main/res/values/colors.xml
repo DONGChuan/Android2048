@@ -17,5 +17,7 @@
     <color name="card_1024">#eee4da</color>
     <color name="card_2048">#eee4da</color>
     <color name="card_4096">#eee4da</color>
+    <color name="card_null">#33ffffff</color>
+
 
 </resources>
