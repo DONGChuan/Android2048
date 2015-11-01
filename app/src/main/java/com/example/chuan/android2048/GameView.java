@@ -7,6 +7,9 @@ import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.GridLayout;
 
 import com.example.chuan.android2048.model.Card;
@@ -115,8 +118,16 @@ public class GameView extends GridLayout {
             }
         }
 
+        ScaleAnimation scaleAnimation =
+                new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setDuration(500);
+
         Point p = emptyPoints.remove((int)(Math.random()*emptyPoints.size()));
+        // We must clean the animation before set a new one. If not,
+        // user can not see the new animation
+        cardsMap[p.x][p.y].clearAnimation();
         cardsMap[p.x][p.y].setNum(Math.random() > 0.1 ? 2 : 4);
+        cardsMap[p.x][p.y].setAnimation(scaleAnimation);
 
     }
 
@@ -261,7 +272,6 @@ public class GameView extends GridLayout {
     }
 
     private void checkGameFinish() {
-
 
         boolean isFinish = true;
 
