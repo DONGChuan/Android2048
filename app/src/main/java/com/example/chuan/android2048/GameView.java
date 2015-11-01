@@ -134,7 +134,7 @@ public class GameView extends GridLayout {
     /**
      * Start new Game
      */
-    private void startGame() {
+    public void startGame() {
         // Clear score
         MainActivity.getMainActivity().clearScore();
         // Reset all the cards on game board
